@@ -22,8 +22,8 @@ class Visualizer:
         x_size = abs(env_dims[0][1] - env_dims[0][0])
         y_size = abs(env_dims[1][1] - env_dims[1][0])
         scaling = x_size/y_size
-        y_dim = 6
-        x_dim = int(y_dim * scaling)
+        y_dim = 6.0
+        x_dim = round(y_dim * scaling, 2)
 
         plt.ion()
         # TODO - scale figure size by env subsample
@@ -119,6 +119,7 @@ class Visualizer:
 
         if not self.env.SLICE:
             self.ax.set_zlabel('Z')  # 3d
+
         if static:
             plt.show()
         else:

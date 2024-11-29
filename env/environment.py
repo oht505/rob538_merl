@@ -308,6 +308,8 @@ class Environment:
         
         Returns a joint_reward vector and "done"
         """
+        done = True
+        active_p = False
         # Take actions, complete tasks
         for a_id, act in enumerate(joint_action):
             # Check agent connection - don't move if disconnected
@@ -319,6 +321,8 @@ class Environment:
                     break
             if a_disconnected:
                 continue
+            else:
+                active_p = True
 
             # Update agent location
             new_loc = self.agent_loc_dict[a_id] + act
@@ -333,15 +337,14 @@ class Environment:
                 if np.abs(np.linalg.norm(task.location-self.agent_loc_dict[a_id])) <= task.arrival_thresh:
                     task.complete = True
              
-        # Check if done, compute global reward
-        num_complete_tasks = 0
+        # Check if done with tasks
         done = True
         for task in self.task_dict.values():
             if not task.complete:
                 done = False
-            else:
-                num_complete_tasks += 1
-                   
+        # If no passengers are connected, we are done
+        if not active_p:
+            done = True
 
         return done
 
