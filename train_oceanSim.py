@@ -339,7 +339,8 @@ def train(test_config,
                     for p in passenger_list:
                         p.check_neighbor_connect(env, comms_max_range)
                     # Update global observation (same as local)
-                    mothership.update_observation(env, step)
+                    mothership.update_observation(env, step/timeout)
+                    print("State:", mothership.observation)
                     # Use policy to get next joint action
                     joint_action = pol.get_action(mothership.observation)
 
