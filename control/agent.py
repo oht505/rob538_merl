@@ -80,7 +80,15 @@ class Agent:
         
         # Get mothership location
         m_loc = self._get_agent_loc_from_env(env, self.mothership_id)
-        max_dim = 0.5*max(max(env.get_dim_ranges()))
+        ranges = env.get_dim_ranges()
+        max_dim = max([r[1]-r[0] for r in ranges])
+        max_dim = 0.5*max_dim #max(max(env.get_dim_ranges()))
+        # print("Dim Ranges:", 
+        #       ranges, 
+        #       "| Differences:", 
+        #       [r[1]-r[0] for r in ranges],
+        #       "| Half Max:", 
+        #       0.5*max_dim)
         
         # Add agent positions (relative to mothership)
         for p in self.passenger_list:
