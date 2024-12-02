@@ -15,7 +15,7 @@ gamma: 0.9
 epsilon: 0.99
 
 # PASSENGER PARAMETERS
-num_robots: 4
+num_robots: 1
 budget: 2000 #Wh (robot energy)
 energy_burn_rate: 0.01 # Wh / (m/s)
 velocity: 2000 #m/timeUnit
