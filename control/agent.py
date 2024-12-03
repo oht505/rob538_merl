@@ -70,7 +70,7 @@ class Agent:
         self.sense_location_from_env(env)
         self.load_tasks_on_agent(env)
         
-    def update_observation(self, env: Environment, progress):
+    def update_observation(self, env: Environment, progress, scaling=False):
         """
         Get global observation of all agent locations relative to mothership?
         """
@@ -94,7 +94,8 @@ class Agent:
         for p in self.passenger_list:
             a_loc = self._get_agent_loc_from_env(env, p.id)
             a_rel = np.round(np.subtract(a_loc, m_loc), 1)[:2]
-            a_rel = a_rel/max_dim
+            if scaling:
+                a_rel = a_rel/max_dim
             if p.connected_to_M:
                 a_state = np.concatenate((a_rel, [1.0]))
             else:
@@ -102,14 +103,15 @@ class Agent:
             obs_list.append(a_state)
         
         # Add task positions (relative to mothership)
-        for task in env.task_dict.values():
-            t_rel = np.round(np.subtract(task.location, m_loc),1)[:2]
-            t_rel = t_rel/max_dim
-            if task.complete:
-                t_state = np.concatenate((t_rel, [1.0]))
-            else:
-                t_state = np.concatenate((t_rel, [0.0]))
-            obs_list.append(t_state)
+        # for task in env.task_dict.values():
+        #     t_rel = np.round(np.subtract(task.location, m_loc),1)[:2]
+        #     if scaling:
+        #         t_rel = t_rel/max_dim
+        #     if task.complete:
+        #         t_state = np.concatenate((t_rel, [1.0]))
+        #     else:
+        #         t_state = np.concatenate((t_rel, [0.0]))
+        #     obs_list.append(t_state)
         
         # TODO (Later?) Potentially use flow observations
         # self._sense_flow_from_env(env)
