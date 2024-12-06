@@ -41,8 +41,13 @@ class FileLogger:
             "full_hybrid_rew,full_hybrid_rew,full_hybrid_rew\n"
         )
 
-        #self.log_file.close()
-
+         self.log_file.flush()
+        
+    def close(self):
+      if self.log_file:
+        self.log_file.close()
+        self.log_file = None
+          
     def __call__(
         self,
         trial: int,
@@ -53,7 +58,10 @@ class FileLogger:
         dist_hybrid_results: np.ndarray,
         full_hybrid_results: np.ndarray,
     ):
-        self.log_file = open(self.log_filename, 'a')  # type: ignore
+        if not isinstance(trial, np.ndarray):
+          trial = np.array(trial)
+        if not isinstance(test, np.ndaaray):
+          test = np.array(test)
 
         self.log_file.write(
             f"{trial[0]},{test[0]},"
@@ -64,4 +72,4 @@ class FileLogger:
             f"{full_hybrid_results[0]},{full_hybrid_results[1]},{full_hybrid_results[2]}\n"
         )
 
-        self.log_file.close()
+        self.log_file.flush()
