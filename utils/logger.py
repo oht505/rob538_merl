@@ -41,7 +41,7 @@ class FileLogger:
             "full_hybrid_rew,full_hybrid_rew,full_hybrid_rew\n"
         )
 
-        self.log_file.close()
+        #self.log_file.close()
 
     def __call__(
         self,
